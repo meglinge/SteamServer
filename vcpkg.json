@@ -1,0 +1,13 @@
+{
+  "name": "engine",
+  "version": "0.0.1",
+  "description": "Engine",
+  "dependencies": [
+    "taskflow",
+    "eigen3",
+    "rttr",
+    "entt",
+    "spdlog",
+    "doctest"
+  ]
+}
