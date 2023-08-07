@@ -3,15 +3,19 @@
 #include <iostream>
 #include <steam_gameserver.h>
 #include "engine.hpp"
-
+#include <sstream>
+#include <vector>
 void Engine::CreateListenSocketP2P()
 {
 
 	m_hListenSocketServer = SteamGameServerNetworkingSockets()->CreateListenSocketP2P(0, 0, nullptr);
 }
-void Engine::ConnectP2PSocket(SteamNetworkingIdentity steamIDRemote)
+void Engine::ConnectP2PSocket(uint64 steamID64)
 {
-	m_hListenSocketClient = SteamGameServerNetworkingSockets()->ConnectP2P(steamIDRemote, 0, 0, nullptr);
+	CSteamID steamID(steamID64);
+	SteamNetworkingIdentity identity;
+	identity.SetSteamID(steamID);
+	m_hListenSocketClient = SteamGameServerNetworkingSockets()->ConnectP2P(identity, 0, 0, nullptr);
 }
 
 bool Engine::SendMessage(std::string message)
@@ -53,7 +57,11 @@ void Engine::OnNetConnectionStatusChanged(SteamNetConnectionStatusChangedCallbac
 		SteamGameServerNetworkingSockets()->AcceptConnection(pCallback->m_hConn);
 		m_hConnection = pCallback->m_hConn;
 	}
-	std::cout << "延迟:" << SteamNetworkingUtils()->GetDirectPingToPOP(pCallback->m_info.m_idPOPRemote) << std::endl;
+	auto ping = SteamNetworkingUtils()->GetDirectPingToPOP(pCallback->m_info.m_idPOPRemote);
+	if (ping > 0)
+	{
+		std::cout << "延迟:" << ping << std::endl;
+	}
 }
 // 初始化
 int Engine::Init()
@@ -82,14 +90,12 @@ void Engine::Update()
 		uint64 id = SteamGameServer()->GetSteamID().ConvertToUint64();
 		while(true){
 			SteamGameServer_RunCallbacks();
-			CSteamID serverSteamID = SteamGameServer_GetSteamID();
+			serverSteamID = SteamGameServer_GetSteamID();
 			if (id != serverSteamID.ConvertToUint64())
 			{
-				printf("Server SteamID: %llu\n", serverSteamID.ConvertToUint64());
+				// printf("Server SteamID: %llu\n", serverSteamID.ConvertToUint64());
 				id = serverSteamID.ConvertToUint64();
 			}
-
-
 
 			if (m_hConnection != 0)
 			{
@@ -107,8 +113,6 @@ void Engine::Update()
 					
 				}
 			}
-			
-
 			
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		} });
@@ -140,27 +144,51 @@ int main()
 
 	// 创建一个线程以100hz的频率调用SteamGameServer_RunCallbacks
 	auto engine = std::make_unique<Engine>();
-
-	engine->CreateListenSocketP2P();
-
-	uint64 idS;
-	std::cin >> idS;
-	CSteamID steamID(idS);
-	SteamNetworkingIdentity identity;
-	identity.SetSteamID(steamID);
-	engine->ConnectP2PSocket(identity);
-
-	auto t = std::make_unique<std::thread>([&]()
-										   {
-		for (size_t i = 0; i < 1000; i++)
+	while (true)
+	{
+		std::cout << ">";
+		std::string idS;
+		std::getline(std::cin, idS);
+		if (idS == "exit")
 		{
-			engine->SendMessage("SFSFSFSFSF");
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		} });
+			return 0;
+		}
+		if (idS == "server")
+		{
+			engine->CreateListenSocketP2P();
+		}
+		if (idS == "steamid")
+		{
+			std::cout << "SteamID: " << engine->serverSteamID.ConvertToUint64() << std::endl;
+		}
 
-	std::cin.get();
-	std::cin.get();
-	std::cin.get();
+		if (idS.contains(" "))
+		{
+			auto iss = std::istringstream(idS);
+			std::vector<std::string> tokens;
+			std::string token;
+			while (std::getline(iss, token, ' '))
+			{
+				tokens.push_back(token);
+			}
+			if (tokens[0] == "connect")
+			{
+				engine->ConnectP2PSocket(std::stoull(tokens[1]));
+			}
+			if (tokens[0] == "send")
+			{
+				engine->SendMessage(tokens[1]);
+			}
+		}
+		if (idS == "help")
+		{
+			std::cout << "exit: 退出程序" << std::endl;
+			std::cout << "server: 创建服务器" << std::endl;
+			std::cout << "steamid: 显示服务器SteamID" << std::endl;
+			std::cout << "connect [steamid64]: 连接服务器" << std::endl;
+			std::cout << "send [message]: 发送消息" << std::endl;
+		}
+	}
 
 	return 0;
 }

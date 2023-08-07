@@ -14,7 +14,7 @@ public:
 
     void CreateListenSocketP2P();
 
-    void ConnectP2PSocket(SteamNetworkingIdentity steamIDRemote);
+    void ConnectP2PSocket(uint64 steamID64);
 
     void ReceiveMessage();
 
@@ -28,4 +28,6 @@ public:
     HSteamListenSocket m_hListenSocketServer = 0;
     HSteamNetConnection m_hListenSocketClient = 0;
     HSteamNetConnection m_hConnection = 0;
+
+    CSteamID serverSteamID;
 };
