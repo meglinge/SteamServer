@@ -32,6 +32,8 @@ if not os.path.exists("steam"):
 # 执行 steam目录下SteamCmd.exe +runscript ../sdk_win.txt
 
 os.chdir("./steam")
+print('SFSFSFS')
+print(os.path.abspath("./steam"))
 # # 执行 SteamCmd.exe +runscript ../sdk_linux.txt
 if sys.platform == "win32":
     os.system("SteamCmd.exe " + win)
