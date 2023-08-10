@@ -17,6 +17,11 @@ execute_process(
     COMMAND python ${CMAKE_SOURCE_DIR}/script/steamlib.py -d ${CMAKE_BINARY_DIR}
 )
 
+if(WIN32)
+    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
+    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/source-charset:utf-8>")
+endif()
+
 # 将源代码添加到此项目的可执行文件。
 aux_source_directory(./Sources/ DIR_SRCS)
 add_executable(Engine ${DIR_SRCS})
