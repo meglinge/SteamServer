@@ -62,36 +62,36 @@ jobs:
           # This is useful to reduce the number of CMake's Presets you need in CMakePresets.json.
           # testPresetAdditionalArgs: "['--config Release']"
 
-      # - name: Configure CMake
-      #   # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      #   # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      #   run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+          # - name: Configure CMake
+          #   # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+          #   # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+          #   run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-      # - name: Build
-      #   # Build your program with the given configuration
-      #   run: |
-      #     cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      - name:
-          Zip Release
-          # You may pin to the exact commit or the version.
-          # uses: TheDoctor0/zip-release@a24011d8d445e4da5935a7e73c1f98e22a439464
-        uses: TheDoctor0/zip-release@0.7.1
-        with:
-          # Filename for archive
-          filename:
-            steamserver.zip
-            # Base path for archive files
-          path:
-            x64-release/
-            # Working directory before zipping
-          directory:
-            ${{github.workspace}}/out/build
-            # List of excluded files / directories
-          # exclusions:# optional, default is
+          # - name: Build
+          #   # Build your program with the given configuration
+          #   run: |
+          #     cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+          # - name:
+          #     Zip Release
+          #     # You may pin to the exact commit or the version.
+          #     # uses: TheDoctor0/zip-release@a24011d8d445e4da5935a7e73c1f98e22a439464
+          #   uses: TheDoctor0/zip-release@0.7.1
+          #   with:
+          #     # Filename for archive
+          #     filename:
+          #       steamserver.zip
+          #       # Base path for archive files
+          #     path:
+          #       x64-release/
+          #       # Working directory before zipping
+          #     directory:
+          #       ${{github.workspace}}/out/build
+          #       # List of excluded files / directories
+          #     # exclusions:# optional, default is
 
-          type: zip
+          # type: zip
       - name: Upload Exe (without runtime)
         uses: actions/upload-artifact@v3
         with:
           name: steamserver
-          path: steamserver.zip
+          path: ${{github.workspace}}/out/build/x64-release/
