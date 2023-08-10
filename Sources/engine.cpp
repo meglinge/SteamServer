@@ -66,6 +66,7 @@ void Engine::OnNetConnectionStatusChanged(SteamNetConnectionStatusChangedCallbac
 // 初始化
 int Engine::Init()
 {
+	printf("初始化");
 	if (!SteamGameServer_Init(0x7f000001, 16801, 16802, eServerModeAuthentication, "1.0"))
 	{
 		printf("SteamGameServer_Init failed\n");
