@@ -87,7 +87,14 @@ jobs:
           directory:
             ${{github.workspace}}/out/build
             # List of excluded files / directories
-            # exclusions:# optional, default is
+          exclusions: |
+            x64-release/vcpkg_installed
+            x64-release/CMakeFiles
+            x64-release/cmake
+            x64-release/vcpkg-manifest-install.log
+            x64-release/cmake_install.cmake
+            x64-release/build.ninja
+            x64-release/CMakeCache.txt
           type: zip
       - name: Upload Exe (without runtime)
         uses: actions/upload-artifact@v3
