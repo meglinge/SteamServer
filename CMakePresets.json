@@ -37,5 +37,11 @@
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
         }
-    ]
+    ],
+    "buildPresets": [
+        {
+          "name": "windows-base",
+          "configurePreset": "windows-base"
+        }
+      ]
 }
