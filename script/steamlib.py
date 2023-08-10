@@ -18,6 +18,30 @@ linux = "+@ShutdownOnFailedCommand 1 "\
     "+force_install_dir ../ "\
     "+app_update 1007 validate "\
     "+quit"
+
+
+import argparse
+import os
+
+# 创建参数解析器
+parser = argparse.ArgumentParser(description="Python脚本示例")
+
+# 添加-d参数
+parser.add_argument("-d", "--directory", help="指定工作目录")
+
+# 解析命令行参数
+args = parser.parse_args()
+
+# 如果提供了-d参数，则设置工作目录
+if args.directory:
+    new_dir = args.directory
+    os.chdir(new_dir)
+    print("更新后的工作目录:", os.getcwd())
+else:
+    print("没有提供工作目录参数。")
+
+
+
 if not os.path.exists("steam"):
     os.makedirs("steam")
     url = "https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip"
