@@ -40,8 +40,10 @@
     ],
     "buildPresets": [
         {
-          "name": "windows-base",
-          "configurePreset": "windows-base"
+            "name": "x64-release",
+            "description": "",
+            "displayName": "",
+            "configurePreset": "x64-release"
         }
-      ]
+    ]
 }
