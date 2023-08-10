@@ -46,10 +46,10 @@ jobs:
             steamserver.zip
             # Base path for archive files
           path:
-            ${{github.workspace}}/output
+            build/
             # Working directory before zipping
           directory:
-            ${{github.workspace}}/build
+            ${{github.workspace}}
             # List of excluded files / directories
           # exclusions:# optional, default is
 
@@ -58,4 +58,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: steamserver
-          path: ${{github.workspace}}/output/steamserver.zip
+          path: steamserver.zip
