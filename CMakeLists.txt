@@ -16,7 +16,7 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ThirdTool/vcpkg/scripts/bu
 project(Engine)
 
 execute_process(
-    COMMAND python ${CMAKE_SOURCE_DIR}/script/steamlib.py
+    COMMAND python ${CMAKE_SOURCE_DIR}/script/steamlib.py -d ${CMAKE_BINARY_DIR}
 )
 
 # 将源代码添加到此项目的可执行文件。
