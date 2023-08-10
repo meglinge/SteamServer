@@ -1,4 +1,4 @@
-﻿#include <cstdio>
+#include <cstdio>
 #include <thread>
 #include <iostream>
 #include <steam_gameserver.h>
