@@ -71,27 +71,26 @@ jobs:
           #   # Build your program with the given configuration
           #   run: |
           #     cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-          # - name:
-          #     Zip Release
-          #     # You may pin to the exact commit or the version.
-          #     # uses: TheDoctor0/zip-release@a24011d8d445e4da5935a7e73c1f98e22a439464
-          #   uses: TheDoctor0/zip-release@0.7.1
-          #   with:
-          #     # Filename for archive
-          #     filename:
-          #       steamserver.zip
-          #       # Base path for archive files
-          #     path:
-          #       x64-release/
-          #       # Working directory before zipping
-          #     directory:
-          #       ${{github.workspace}}/out/build
-          #       # List of excluded files / directories
-          #     # exclusions:# optional, default is
-
-          # type: zip
+      - name:
+          Zip Release
+          # You may pin to the exact commit or the version.
+          # uses: TheDoctor0/zip-release@a24011d8d445e4da5935a7e73c1f98e22a439464
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          # Filename for archive
+          filename:
+            steamserver.zip
+            # Base path for archive files
+          path:
+            x64-release/
+            # Working directory before zipping
+          directory:
+            ${{github.workspace}}/out/build
+            # List of excluded files / directories
+            # exclusions:# optional, default is
+          type: zip
       - name: Upload Exe (without runtime)
         uses: actions/upload-artifact@v3
         with:
           name: steamserver
-          path: ${{github.workspace}}/out/build/x64-release/
+          path: ${{github.workspace}}/out/build/steamserver.zip
