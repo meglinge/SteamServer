@@ -8,10 +8,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(steamwork)
 
+
+
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ThirdTool/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 
 #项目名称
 project(Engine)
+
+execute_process(
+    COMMAND python ${CMAKE_SOURCE_DIR}/script/steamlib.py
+)
+
 # 将源代码添加到此项目的可执行文件。
 aux_source_directory(./Sources/ DIR_SRCS)
 add_executable(Engine ${DIR_SRCS})

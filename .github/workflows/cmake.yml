@@ -97,6 +97,7 @@ jobs:
             x64-release/CMakeCache.txt
             x64-release/.ninja_log
             x64-release/.ninja_deps
+            x64-release/steamapps
           type: zip
       - name: Upload Exe (without runtime)
         uses: actions/upload-artifact@v3
