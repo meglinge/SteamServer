@@ -35,10 +35,9 @@ jobs:
         # Build your program with the given configuration
         run: |
           cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-          mv ${{github.workspace}}/build out/build
 
       - name: Upload Exe (without runtime)
         uses: actions/upload-artifact@v3
         with:
           name: steamserver
-          path: out/build
+          path: ￥{{github.workspace}}/build
