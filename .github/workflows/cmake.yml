@@ -95,6 +95,8 @@ jobs:
             x64-release/cmake_install.cmake
             x64-release/build.ninja
             x64-release/CMakeCache.txt
+            x64-release/.ninja_log
+            x64-release/.ninja_deps
           type: zip
       - name: Upload Exe (without runtime)
         uses: actions/upload-artifact@v3
