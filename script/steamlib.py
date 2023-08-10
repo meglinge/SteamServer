@@ -36,9 +36,9 @@ args = parser.parse_args()
 if args.directory:
     new_dir = args.directory
     os.chdir(new_dir)
-    print("更新后的工作目录:", os.getcwd())
+    print("Updated working directory:", os.getcwd())
 else:
-    print("没有提供工作目录参数。")
+    print("No working directory parameter provided.")
 
 
 
