@@ -1,4 +1,5 @@
 #include <string>
+#include <steam_gameserver.h>
 
 class Engine
 {
