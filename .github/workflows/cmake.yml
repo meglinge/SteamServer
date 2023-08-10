@@ -82,10 +82,10 @@ jobs:
             steamserver.zip
             # Base path for archive files
           path:
-            /
+            x64-release/
             # Working directory before zipping
           directory:
-            ${{github.workspace}}/out/build/x64-release/
+            ${{github.workspace}}/out/build
             # List of excluded files / directories
           # exclusions:# optional, default is
 
