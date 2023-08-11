@@ -51,17 +51,15 @@ if not os.path.exists("steam"):
     # 解压缩文件
     with zipfile.ZipFile(file_name, 'r') as zip_ref:
         zip_ref.extractall("./steam")
+    os.chdir("./steam")
+    print('SFSFSFS')
+    print(os.path.abspath("./steam"))
+    if sys.platform == "win32":
+        os.system("SteamCmd.exe " + win)
+    elif sys.platform == "linux":
+        os.system("SteamCmd.exe " + linux)
+    else:
+        print("Unknown system.")
 
 
-# 执行 steam目录下SteamCmd.exe +runscript ../sdk_win.txt
 
-os.chdir("./steam")
-print('SFSFSFS')
-print(os.path.abspath("./steam"))
-# # 执行 SteamCmd.exe +runscript ../sdk_linux.txt
-if sys.platform == "win32":
-    os.system("SteamCmd.exe " + win)
-elif sys.platform == "linux":
-    os.system("SteamCmd.exe " + linux)
-else:
-    print("Unknown system.")
