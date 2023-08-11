@@ -23,6 +23,8 @@ jobs:
       - name: WinGet Releaser
         run: |
           winget install KhronosGroup.VulkanSDK --disable-interactivity --accept-source-agreements
+      - name: 打印环境变量
+        run: |
           echo $env:VULKAN_SDK
 
       - uses: actions/checkout@v3
