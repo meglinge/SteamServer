@@ -18,16 +18,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # - name: Install winget
-      #   uses: Cyberboss/install-winget@v1
-      # - name: WinGet Releaser
-      #   run: |
-      #     winget install KhronosGroup.VulkanSDK --disable-interactivity --accept-source-agreements
-      - name: Install Vulkan SDK
-        uses: humbletim/install-vulkan-sdk@v1.1.1
-        with:
-          version: 1.3.204.0
-          cache: true
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+      - name: WinGet Releaser
+        run: |
+          winget install KhronosGroup.VulkanSDK --disable-interactivity --accept-source-agreements
+          echo $env:VULKAN_SDK
+
       - uses: actions/checkout@v3
         with:
           submodules: true
