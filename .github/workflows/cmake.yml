@@ -71,37 +71,48 @@ jobs:
           #   # Build your program with the given configuration
           #   run: |
           #     cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      - name:
-          Zip Release
-          # You may pin to the exact commit or the version.
-          # uses: TheDoctor0/zip-release@a24011d8d445e4da5935a7e73c1f98e22a439464
+      - name: Zip Steam Release
         uses: TheDoctor0/zip-release@0.7.1
         with:
-          # Filename for archive
-          filename:
-            steamserver.zip
-            # Base path for archive files
-          path:
-            x64-release/
-            # Working directory before zipping
-          directory:
-            ${{github.workspace}}/out/build
-            # List of excluded files / directories
+          filename: steam.zip
+          path: x64-release/
+          directory: ${{github.workspace}}/out/build
           exclusions: |
-            x64-release/vcpkg_installed
-            x64-release/CMakeFiles
-            x64-release/cmake
-            x64-release/vcpkg-manifest-install.log
-            x64-release/cmake_install.cmake
-            x64-release/build.ninja
-            x64-release/CMakeCache.txt
-            x64-release/.ninja_log
-            x64-release/.ninja_deps
-            x64-release/steamapps
-            x64-release/steam
+            x64-release/Steam/vcpkg_installed
+            x64-release/Steam/CMakeFiles
+            x64-release/Steam/cmake
+            x64-release/Steam/vcpkg-manifest-install.log
+            x64-release/Steam/cmake_install.cmake
+            x64-release/Steam/build.ninja
+            x64-release/Steam/CMakeCache.txt
+            x64-release/Steam/.ninja_log
+            x64-release/Steam/.ninja_deps
+            x64-release/Steam/steamapps
+            x64-release/Steam/steamcache
           type: zip
-      - name: Upload Exe (without runtime)
+      - name: Zip CEngine Release
+        uses: TheDoctor0/zip-release@0.7.1
+        with:
+          filename: cengine.zip
+          path: x64-release/
+          directory: ${{github.workspace}}/out/build
+          exclusions: |
+            x64-release/CEngine/vcpkg_installed
+            x64-release/CEngine/CMakeFiles
+            x64-release/CEngine/cmake
+            x64-release/CEngine/vcpkg-manifest-install.log
+            x64-release/CEngine/cmake_install.cmake
+            x64-release/CEngine/build.ninja
+            x64-release/CEngine/CMakeCache.txt
+            x64-release/CEngine/.ninja_log
+            x64-release/CEngine/.ninja_deps
+            x64-release/CEngine/steamapps
+            x64-release/CEngine/steamcache
+          type: zip
+      - name: Upload Release
         uses: actions/upload-artifact@v3
         with:
           name: steamserver
-          path: ${{github.workspace}}/out/build/steamserver.zip
+          path: |
+            ${{github.workspace}}/out/build/steam.zip
+            ${{github.workspace}}/out/build/cengine.zip

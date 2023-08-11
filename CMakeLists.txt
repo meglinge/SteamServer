@@ -14,13 +14,6 @@ else()
         COMMAND python ${CMAKE_SOURCE_DIR}/script/vcpkg.py -d ${CMAKE_SOURCE_DIR}
     )
 endif()
-
-
-
-
-execute_process(
-    COMMAND python ${CMAKE_SOURCE_DIR}/script/steamlib.py -d ${CMAKE_BINARY_DIR}
-    )
     
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ThirdTool/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 set(CMAKE_CXX_STANDARD 23)
@@ -34,7 +27,6 @@ endif()
 
 # 项目名称
 project(Engine)
-
 
 add_subdirectory(CEngine)
 add_subdirectory(Steam)

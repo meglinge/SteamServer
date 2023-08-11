@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 
 
 execute_process(
-    COMMAND python ${CMAKE_SOURCE_DIR}/script/steamlib.py -d ${CMAKE_BINARY_DIR}
+    COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/script/steamlib.py -d ${CMAKE_CURRENT_BINARY_DIR}
     )
     
 set(CMAKE_CXX_STANDARD 23)

@@ -39,18 +39,18 @@ else:
     print("No working directory parameter provided.")
 
 
-if not os.path.exists("steam"):
-    os.makedirs("steam")
+if not os.path.exists("steamcache"):
+    os.makedirs("steamcache")
     url = "https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip"
-    file_name = "./steam/steamcmd.zip"
+    file_name = "./steamcache/steamcmd.zip"
     # 下载文件
     urllib.request.urlretrieve(url, file_name)
     # 解压缩文件
     with zipfile.ZipFile(file_name, 'r') as zip_ref:
-        zip_ref.extractall("./steam")
-    os.chdir("./steam")
+        zip_ref.extractall("./steamcache")
+    os.chdir("./steamcache")
     print('SFSFSFS')
-    print(os.path.abspath("./steam"))
+    print(os.path.abspath("./steamcache"))
     if sys.platform == "win32":
         os.system("SteamCmd.exe " + win)
     elif sys.platform == "linux":
