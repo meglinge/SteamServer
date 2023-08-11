@@ -19,7 +19,9 @@ jobs:
 
     steps:
       - name: WinGet Releaser
-        run: winget install KhronosGroup.VulkanSDK
+        run: |
+          Add-AppxPackage -RegisterByFamilyName -MainPackage Microsoft.DesktopAppInstaller_8wekyb3d8bbwe  
+          winget install KhronosGroup.VulkanSDK
 
       - uses: actions/checkout@v3
         with:
