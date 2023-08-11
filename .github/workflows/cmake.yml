@@ -122,5 +122,5 @@ jobs:
             steam
             cengine
           path: |
-            ${{github.workspace}}/out/build/steam.zip
-            ${{github.workspace}}/out/build/cengine.zip
+            ${{github.workspace}}/out/build/x64-release/steam.zip
+            ${{github.workspace}}/out/build/x64-release/cengine.zip
