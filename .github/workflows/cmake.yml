@@ -18,17 +18,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Install winget
+      - name: Install WinGet
         uses: Cyberboss/install-winget@v1
-      - name: WinGet Releaser
+      - name: Install Vulkan
         run: |
           winget install KhronosGroup.VulkanSDK --disable-interactivity --accept-source-agreements
-      - name: List
-        run: |
-          ls C:\VulkanSDK
-      - name: 打印环境变量
-        run: |
-          echo $env:VULKAN_SDK
 
       - uses: actions/checkout@v3
         with:
@@ -87,44 +81,46 @@ jobs:
         uses: TheDoctor0/zip-release@0.7.1
         with:
           filename: steam.zip
-          path: x64-release/
-          directory: ${{github.workspace}}/out/build
+          path: Steam/
+          directory: ${{github.workspace}}/out/build/x64-release
           exclusions: |
-            x64-release/Steam/vcpkg_installed
-            x64-release/Steam/CMakeFiles
-            x64-release/Steam/cmake
-            x64-release/Steam/vcpkg-manifest-install.log
-            x64-release/Steam/cmake_install.cmake
-            x64-release/Steam/build.ninja
-            x64-release/Steam/CMakeCache.txt
-            x64-release/Steam/.ninja_log
-            x64-release/Steam/.ninja_deps
-            x64-release/Steam/steamapps
-            x64-release/Steam/steamcache
+            Steam/vcpkg_installed
+            Steam/CMakeFiles
+            Steam/cmake
+            Steam/vcpkg-manifest-install.log
+            Steam/cmake_install.cmake
+            Steam/build.ninja
+            Steam/CMakeCache.txt
+            Steam/.ninja_log
+            Steam/.ninja_deps
+            Steam/steamapps
+            Steam/steamcache
           type: zip
       - name: Zip CEngine Release
         uses: TheDoctor0/zip-release@0.7.1
         with:
           filename: cengine.zip
-          path: x64-release/
-          directory: ${{github.workspace}}/out/build
+          path: CEngine
+          directory: ${{github.workspace}}/out/build/x64-release
           exclusions: |
-            x64-release/CEngine/vcpkg_installed
-            x64-release/CEngine/CMakeFiles
-            x64-release/CEngine/cmake
-            x64-release/CEngine/vcpkg-manifest-install.log
-            x64-release/CEngine/cmake_install.cmake
-            x64-release/CEngine/build.ninja
-            x64-release/CEngine/CMakeCache.txt
-            x64-release/CEngine/.ninja_log
-            x64-release/CEngine/.ninja_deps
-            x64-release/CEngine/steamapps
-            x64-release/CEngine/steamcache
+            CEngine/vcpkg_installed
+            CEngine/CMakeFiles
+            CEngine/cmake
+            CEngine/vcpkg-manifest-install.log
+            CEngine/cmake_install.cmake
+            CEngine/build.ninja
+            CEngine/CMakeCache.txt
+            CEngine/.ninja_log
+            CEngine/.ninja_deps
+            CEngine/steamapps
+            CEngine/steamcache
           type: zip
       - name: Upload Release
         uses: actions/upload-artifact@v3
         with:
-          name: steamserver
+          name: |
+            steam
+            cengine
           path: |
             ${{github.workspace}}/out/build/steam.zip
             ${{github.workspace}}/out/build/cengine.zip
