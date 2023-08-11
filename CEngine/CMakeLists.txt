@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.20)
 # 项目名称
 project(CEngine)
 
-
+set(Vulkan_INCLUDE_DIR $ENV{VULKAN_SDK}/Include)
+set(Vulkan_LIBRARY $ENV{VULKAN_SDK}/Lib/vulkan-1.lib)
 # 将源代码添加到此项目的可执行文件。
 aux_source_directory(./Sources/ DIR_SRCS)
 add_executable(${PROJECT_NAME} ${DIR_SRCS})
