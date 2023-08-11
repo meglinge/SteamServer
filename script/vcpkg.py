@@ -27,7 +27,6 @@ with open('vcpkg.json', 'r') as f:
     data = json.load(f)
 dependencies = data['dependencies']
 os.chdir("..")
-
 # 计算vcpkg.json的hash
 hash_md5 = hashlib.md5(json.dumps(
     data, sort_keys=True).encode('utf-8')).hexdigest()

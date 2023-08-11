@@ -120,7 +120,6 @@ jobs:
         with:
           name: |
             steam
-            cengine
           path: |
             ${{github.workspace}}/out/build/x64-release/steam.zip
             ${{github.workspace}}/out/build/x64-release/cengine.zip

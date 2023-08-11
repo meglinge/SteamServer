@@ -19,8 +19,6 @@ include(steamwork)
 # 项目名称
 project(Steam)
 
-
-
 # 将源代码添加到此项目的可执行文件。
 aux_source_directory(./Sources/ DIR_SRCS)
 add_executable(Steam ${DIR_SRCS})
