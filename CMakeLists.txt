@@ -1,7 +1,6 @@
 # CMakeList.txt: Engine 的 CMake 项目，在此处包括源代码并定义
-# 项目特定的逻辑。
-#
 cmake_minimum_required(VERSION 3.20)
+
 option(ENABLE_MANIFEST_MODE "Enable Manifest Mode" ON)
 set(ENABLE_MANIFEST_MODE OFF)
 # # 根据选项的值来控制某条指令的开和关
@@ -16,6 +15,9 @@ else()
     )
 endif()
 
+
+
+
 execute_process(
     COMMAND python ${CMAKE_SOURCE_DIR}/script/steamlib.py -d ${CMAKE_BINARY_DIR}
     )
@@ -24,44 +26,15 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ThirdTool/vcpkg/scripts/bu
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-include(steamwork)
+if(WIN32)
+    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
+    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/source-charset:utf-8>")
+endif()
 
 
 # 项目名称
 project(Engine)
 
 
-if(WIN32)
-    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
-    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/source-charset:utf-8>")
-endif()
-
-# 将源代码添加到此项目的可执行文件。
-aux_source_directory(./Sources/ DIR_SRCS)
-add_executable(Engine ${DIR_SRCS})
-
-# 导入外部依赖
-find_package(Taskflow CONFIG REQUIRED)
-find_package(Eigen3 CONFIG REQUIRED)
-find_package(doctest CONFIG REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
-find_package(rttr CONFIG REQUIRED)
-target_link_libraries(Engine PUBLIC
-    Taskflow::Taskflow
-    Eigen3::Eigen
-    doctest::doctest
-    spdlog::spdlog
-    RTTR::Core
-    PUBLIC ${STEAMAPI_BINARY_DIR}
-)
-target_include_directories(${PROJECT_NAME}
-    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-    PUBLIC ${STEAMAPI_SOURCE_DIR}
-)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-file(COPY ${STEAMAPI_SHARED_DIR}
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-)
-set_property(TARGET Engine PROPERTY MSVC_RUNTIME_LIBRARY MultiThreaded)
+add_subdirectory(CEngine)
+add_subdirectory(Steam)

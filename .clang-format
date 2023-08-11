@@ -1,0 +1,49 @@
+Language: Cpp
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+AlignArrayOfStructures: Left
+AccessModifierOffset: -5
+IndentAccessModifiers: false
+IndentWidth: 5
+SortIncludes: false
+ColumnLimit: 128
+SortUsingDeclarations: false
+
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+
+AlignConsecutiveBitFields:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+
+AlignAfterOpenBracket: BlockIndent
+
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AlwaysBreakTemplateDeclarations: MultiLine
+BreakAfterAttributes: Leave
+StatementMacros: ["reflect"]
+IndentCaseLabels: true
+IndentCaseBlocks: false
+BinPackArguments: false
