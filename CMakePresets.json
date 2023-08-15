@@ -44,6 +44,12 @@
             "description": "",
             "displayName": "",
             "configurePreset": "x64-release"
+        }, 
+        {
+            "name": "x64-RelWithDebInfo",
+            "description": "",
+            "displayName": "",
+            "configurePreset": "x64-RelWithDebInfo"
         }
     ]
 }

@@ -1,21 +1,21 @@
 # CMakeList.txt: Engine 的 CMake 项目，在此处包括源代码并定义
 cmake_minimum_required(VERSION 3.20)
 
-
 execute_process(
     COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/script/steamlib.py -d ${CMAKE_CURRENT_BINARY_DIR}
-    )
-    
+)
+
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
 if(WIN32)
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/source-charset:utf-8>")
 endif()
 
-
 include(steamwork)
+
 # 项目名称
 project(Steam)
 

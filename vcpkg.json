@@ -9,6 +9,8 @@
     "entt",
     "spdlog",
     "doctest",
-    "glm"
+    "glm",
+    "mimalloc",
+    "glfw3"
   ]
 }
