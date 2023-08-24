@@ -35,10 +35,39 @@ bool Engine::checkValidationLayerSupport() {
      vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
      std::vector<VkLayerProperties> availableLayers(layerCount);
      vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-     return false;
+     for (const char* layerName : validationLayers) {
+          bool layerFound = false;
+
+          for (const auto& layerProperties : availableLayers) {
+               if (strcmp(layerName, layerProperties.layerName) == 0) {
+                    layerFound = true;
+                    break;
+               }
+          }
+
+          if (!layerFound) {
+               return false;
+          }
+     }
+     return true;
+}
+
+std::vector<const char*> Engine::getRequiredExtensions() {
+     uint32_t     glfwExtensionCount = 0;
+     const char** glfwExtensions;
+     glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+     std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+     if (enableValidationLayers) {
+          extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+     }
+     return extensions;
 }
 
 void Engine::createInstance() {
+     if (enableValidationLayers && !checkValidationLayerSupport()) {
+          spdlog::error("validation layers requested, but not available!");
+     }
+
      VkApplicationInfo appInfo{};
      appInfo.sType              = VK_STRUCTURE_TYPE_APPLICATION_INFO;
      appInfo.pApplicationName   = "Meglinge";
@@ -48,27 +77,17 @@ void Engine::createInstance() {
      appInfo.apiVersion         = VK_API_VERSION_1_0;
 
      VkInstanceCreateInfo createInfo{};
-     createInfo.sType                = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-     createInfo.pApplicationInfo     = &appInfo;
+     createInfo.sType                   = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+     createInfo.pApplicationInfo        = &appInfo;
 
-     uint32_t     glfwExtensionCount = 0;
-     const char** glfwExtensions;
-     glfwExtensions                     = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-     createInfo.enabledExtensionCount   = glfwExtensionCount;
-     createInfo.ppEnabledExtensionNames = glfwExtensions;
-     createInfo.enabledLayerCount       = 0;
-
-     uint32_t extensionCount            = 0;
-     vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-     std::vector<VkExtensionProperties> extensions(extensionCount);
-     vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
-     spdlog::info("available extensions:");
-     for (const auto& extension : extensions) {
-          spdlog::info("\t{}", extension.extensionName);
-     }
-     if (vkCreateInstance(&createInfo, nullptr, &instance)) {
-          spdlog::error("Failed to create instance!");
+     auto extensions                    = getRequiredExtensions();
+     createInfo.enabledExtensionCount   = static_cast<uint32_t>(extensions.size());
+     createInfo.ppEnabledExtensionNames = extensions.data();
+     if (enableValidationLayers) {
+          createInfo.enabledLayerCount   = static_cast<uint32_t>(validationLayers.size());
+          createInfo.ppEnabledLayerNames = validationLayers.data();
+     } else {
+          createInfo.enabledLayerCount = 0;
      }
 }
 void Engine::initVulkan() {
