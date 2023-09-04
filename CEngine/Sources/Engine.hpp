@@ -3,17 +3,31 @@ public:
      void run();
 
 private:
-     void                                  initWindow();
-     void                                  createInstance();
-     void                                  initVulkan();
-     void                                  mainLoop();
-     void                                  cleanup();
-     bool                                  checkValidationLayerSupport();
-     std::vector<const char*>              getRequiredExtensions();
+     void                     initWindow();
+     void                     createInstance();
+     void                     initVulkan();
+     void                     mainLoop();
+     void                     cleanup();
+     bool                     checkValidationLayerSupport();
+     std::vector<const char*> getRequiredExtensions();
+     void                     setupDebugMessenger();
+     VkResult                 CreateDebugUtilsMessengerEXT(
+                         VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                         VkDebugUtilsMessengerEXT* pDebugMessenger
+                     );
+     void DestroyDebugUtilsMessengerEXT(
+         VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator
+     );
      static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
          VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType,
          const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData
-     );
-     GLFWwindow* window;
-     VkInstance  instance;
+     ) {
+
+          spdlog::error("validation layer: {}", pCallbackData->pMessage);
+
+          return VK_FALSE;
+     }
+     GLFWwindow*              window;
+     VkInstance               instance;
+     VkDebugUtilsMessengerEXT debugMessenger;
 };
