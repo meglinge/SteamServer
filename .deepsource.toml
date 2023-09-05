@@ -1,7 +1,13 @@
 version = 1
 
 [[analyzers]]
+name = "cxx"
+
+[[analyzers]]
 name = "python"
 
   [analyzers.meta]
   runtime_version = "3.x.x"
+
+[[transformers]]
+name = "clang-format"
