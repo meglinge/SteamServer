@@ -8,12 +8,13 @@ const uint32_t HEIGHT = 600;
 //
 
 const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
+const bool                     enableValidationLayers = true;
 
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
+//#ifdef NDEBUG
+//const bool enableValidationLayers = false;
+//#else
+//const bool enableValidationLayers = true;
+//#endif
 
 //
 void Engine::run() {
@@ -64,18 +65,11 @@ std::vector<const char*> Engine::getRequiredExtensions() {
 }
 void Engine::setupDebugMessenger() {
      if (!enableValidationLayers) return;
-     VkDebugUtilsMessengerCreateInfoEXT createInfo{};
-     createInfo.sType           = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-     createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
-                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
-                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-     createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
-                              VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-     createInfo.pfnUserCallback = debugCallback;
-     createInfo.pUserData       = nullptr;
+     VkDebugUtilsMessengerCreateInfoEXT createInfo;
+     populateDebugMessengerCreateInfo(createInfo);
 
      if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
-          throw std::runtime_error("failed to set up debug messenger!");
+          spdlog::error("failed to set up debug messenger!");
      }
 }
 VkResult Engine::CreateDebugUtilsMessengerEXT(
@@ -117,11 +111,18 @@ void Engine::createInstance() {
      auto extensions                    = getRequiredExtensions();
      createInfo.enabledExtensionCount   = static_cast<uint32_t>(extensions.size());
      createInfo.ppEnabledExtensionNames = extensions.data();
+     VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
      if (enableValidationLayers) {
           createInfo.enabledLayerCount   = static_cast<uint32_t>(validationLayers.size());
           createInfo.ppEnabledLayerNames = validationLayers.data();
+
+          populateDebugMessengerCreateInfo(debugCreateInfo);
+          createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
      } else {
           createInfo.enabledLayerCount = 0;
+     }
+     if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
+          throw std::runtime_error("failed to create instance!");
      }
 }
 void Engine::initVulkan() {
@@ -141,7 +142,16 @@ void Engine::cleanup() {
      glfwDestroyWindow(window);
      glfwTerminate();
 }
-
+void Engine::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+     createInfo                 = {};
+     createInfo.sType           = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+     createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+                                  VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+     createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+                              VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+     createInfo.pfnUserCallback = debugCallback;
+}
 int main() {
      Engine app;
      try {

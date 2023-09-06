@@ -22,6 +22,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
     mimalloc
 )
 
+#add_compile_options("$<$<CONFIG:DEBUG>:-DDEBUG>")\
+target_compile_definitions(${PROJECT_NAME} PUBLIC DDEBUG=1)
 # target_include_directories(${PROJECT_NAME}
 # PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 # PUBLIC ${STEAMAPI_SOURCE_DIR}

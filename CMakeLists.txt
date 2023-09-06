@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 option(ENABLE_MANIFEST_MODE "Enable Manifest Mode" ON)
-set(ENABLE_MANIFEST_MODE OFF)
+set(ENABLE_MANIFEST_MODE ON)
 
 # # 根据选项的值来控制某条指令的开和关
 if(ENABLE_MANIFEST_MODE)
