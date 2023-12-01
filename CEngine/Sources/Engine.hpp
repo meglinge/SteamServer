@@ -35,8 +35,6 @@ private:
                spdlog::debug("validation layer: {}", pCallbackData->pMessage);
           }
 
-          
-          
           return VK_FALSE;
      }
      GLFWwindow*              window;
